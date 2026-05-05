@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Проектирование и анализ">
-    <meta name="author" content="Дмитрий Денисов">
-    <meta property="og:title" content="Дмитрий Денисов">
-    <meta property="og:description" content="Проектирую бизнес-системы, которые работают без сбоев.">
-    <meta property="og:type" content="website">
+    <meta name="description" content="Архитектор процессов — проектирую эффективные бизнес-системы, оптимизирую операции, внедряю методологии.">
+    <meta name="author" content="Денис Денисов">
     <title>Архитектор процессов | Денис Денисов</title>
     <style>
         * {
@@ -18,290 +15,223 @@
 
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #F9FAFB;
-            color: #111827;
+            background: #FFFFFF;
+            color: #1A1A1A;
             line-height: 1.5;
             scroll-behavior: smooth;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         /* Header */
         header {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #E5E7EB;
             background: rgba(255,255,255,0.96);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             position: sticky;
             top: 0;
             z-index: 10;
-            border-bottom: 1px solid #E5E7EB;
         }
 
         .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #0F172A, #2D3A5E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
+            color: #111827;
+        }
+
+        .logo span {
+            color: #D4AF37;
         }
 
         .nav-links {
             display: flex;
-            gap: 1.8rem;
-            flex-wrap: wrap;
+            gap: 2rem;
         }
 
         .nav-links a {
             text-decoration: none;
             font-weight: 500;
-            color: #374151;
-            font-size: 1rem;
+            color: #4B5563;
             transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: #2563EB;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.75rem 1.8rem;
-            border-radius: 40px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .btn-primary {
-            background: #1E293B;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #0F172A;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            border: 1.5px solid #1E293B;
-            color: #1E293B;
-        }
-
-        .btn-outline:hover {
-            background: #1E293B;
-            color: white;
-        }
-
-        /* Email contact */
-        .contact-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #EFF6FF;
-            padding: 0.6rem 1.2rem;
-            border-radius: 60px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #1E40AF;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        .contact-email i {
-            font-size: 1.1rem;
-        }
-
-        .contact-email:hover {
-            background: #DBEAFE;
-            transform: scale(1.02);
+            color: #D4AF37;
         }
 
         /* Hero */
         .hero {
-            padding: 3rem 0 2.5rem;
-        }
-
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            background: linear-gradient(to right, #0F172A, #2D3A5E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: #4B5563;
-            max-width: 600px;
-            margin-bottom: 2rem;
+            padding: 4rem 0 3rem;
+            text-align: center;
         }
 
         .hero-badge {
-            color: #2563EB;
+            color: #D4AF37;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             font-size: 0.75rem;
             margin-bottom: 1rem;
         }
 
-        /* Sections */
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #0F172A;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #4B5563;
+            max-width: 650px;
+            margin: 0 auto 2rem;
+        }
+
+        /* секции */
         .section {
-            padding: 3rem 0 2.5rem;
+            padding: 4rem 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .section:last-of-type {
+            border-bottom: none;
         }
 
         .section h2 {
-            font-size: 1.9rem;
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            color: #0F172A;
         }
 
         .section-sub {
             color: #6B7280;
             margin-bottom: 2rem;
-            border-left: 3px solid #2563EB;
+            border-left: 3px solid #D4AF37;
             padding-left: 1rem;
         }
 
-        /* Cards */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        /* Услуги — список, без карточек */
+        .services-list {
+            display: flex;
+            flex-direction: column;
             gap: 1.5rem;
-            margin-top: 0.5rem;
         }
 
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 1.6rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            transition: 0.2s;
-            border: 1px solid #E5E7EB;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1);
-        }
-
-        .card i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Methodology */
-        .method-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        .service-item {
+            display: flex;
             gap: 1rem;
-            margin-top: 1.5rem;
+            align-items: flex-start;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .service-icon {
+            font-size: 1.8rem;
+            min-width: 48px;
+        }
+
+        .service-text h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .service-text p {
+            color: #6B7280;
+            font-size: 0.95rem;
+        }
+
+        /* Методологии — чипсы */
+        .method-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
         }
 
         .method-item {
             background: #F3F4F6;
-            padding: 0.8rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
-            text-align: center;
+            font-size: 0.85rem;
             font-weight: 500;
-            font-size: 0.9rem;
+            color: #1F2937;
         }
 
-        /* Contact block with email */
+        /* Контакт */
         .contact-block {
-            background: white;
-            border-radius: 32px;
-            padding: 2rem;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            margin: 1rem 0 1rem;
+            background: #F9FAFB;
+            padding: 2rem;
+            border-radius: 24px;
         }
 
         .contact-block p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #2D3A5E;
+            margin-bottom: 1rem;
+            color: #374151;
         }
 
-        .big-email {
-            font-size: 1.3rem;
-            font-weight: 600;
-            background: #F1F5F9;
-            padding: 1rem 1.8rem;
-            border-radius: 60px;
+        .email-link {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.5rem;
+            background: #FFFFFF;
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
             text-decoration: none;
+            font-weight: 600;
             color: #0F172A;
+            border: 1px solid #E5E7EB;
             transition: 0.2s;
             word-break: break-all;
         }
 
-        .big-email:hover {
-            background: #E2E8F0;
+        .email-link:hover {
+            border-color: #D4AF37;
             transform: scale(1.02);
         }
 
         footer {
             text-align: center;
             padding: 2rem 0;
-            border-top: 1px solid #E5E7EB;
-            color: #6B7280;
-            font-size: 0.85rem;
+            color: #9CA3AF;
+            font-size: 0.8rem;
         }
 
-        /* ===== Адаптив для мобильных ===== */
+        /* Мобильная адаптация */
         @media (max-width: 768px) {
             .container {
-                padding: 0 18px;
+                padding: 0 20px;
             }
 
             .nav {
                 flex-direction: column;
-                text-align: center;
-                gap: 0.6rem;
-            }
-
-            .logo {
-                font-size: 1.5rem;
+                gap: 0.75rem;
             }
 
             .nav-links {
-                justify-content: center;
-                gap: 1.2rem;
-            }
-
-            .nav-links a {
-                font-size: 0.95rem;
+                gap: 1.5rem;
             }
 
             .hero {
-                padding: 2rem 0 1.5rem;
-                text-align: center;
+                padding: 2.5rem 0 2rem;
             }
 
             .hero h1 {
@@ -310,61 +240,46 @@
 
             .hero p {
                 font-size: 1rem;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-badge {
-                font-size: 0.7rem;
             }
 
             .section {
-                padding: 2rem 0;
-                text-align: center;
+                padding: 2.5rem 0;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
             }
 
             .section-sub {
-                text-align: left;
-                margin-left: 0;
-                font-size: 0.95rem;
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
             }
 
-            .cards {
-                gap: 1.2rem;
+            .service-item {
+                gap: 0.75rem;
             }
 
-            .card {
-                padding: 1.3rem;
-                text-align: left;
+            .service-icon {
+                font-size: 1.5rem;
+                min-width: 40px;
             }
 
-            .card h3 {
-                font-size: 1.3rem;
+            .service-text h3 {
+                font-size: 1.1rem;
             }
 
-            .method-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.8rem;
+            .service-text p {
+                font-size: 0.85rem;
             }
 
             .method-item {
-                font-size: 0.85rem;
-                padding: 0.6rem 0.5rem;
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
             }
 
-            .contact-block {
-                padding: 1.5rem;
-            }
-
-            .big-email {
-                font-size: 1rem;
-                padding: 0.8rem 1.2rem;
-                word-break: break-all;
-            }
-
-            .btn {
-                padding: 0.6rem 1.4rem;
+            .email-link {
                 font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
             }
         }
 
@@ -374,13 +289,7 @@
             }
 
             .method-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .big-email {
-                font-size: 0.9rem;
-                flex-wrap: wrap;
-                justify-content: center;
+                gap: 0.5rem;
             }
         }
     </style>
@@ -390,7 +299,7 @@
 <header>
     <div class="container">
         <div class="nav">
-            <div class="logo">Архитектор процессов</div>
+            <div class="logo">Архитектор <span>процессов</span></div>
             <div class="nav-links">
                 <a href="#services">Услуги</a>
                 <a href="#methodology">Методологии</a>
@@ -407,33 +316,41 @@
             <div class="hero-badge">Архитектура бизнес-систем</div>
             <h1>Проектирую процессы,<br> которые работают</h1>
             <p>Оптимизация, автоматизация и внедрение методологий. Повышаю эффективность компаний с помощью системного подхода.</p>
-            <a href="#contact" class="btn btn-primary">Связаться →</a>
+            <a href="#contact" style="display: inline-block; background: #0F172A; color: white; padding: 0.8rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600;">Обсудить проект →</a>
         </div>
 
-        <!-- Услуги -->
+        <!-- Услуги (без карточек) -->
         <div id="services" class="section">
             <h2>Что я делаю</h2>
             <div class="section-sub">Архитектура и реинжиниринг процессов</div>
-            <div class="cards">
-                <div class="card">
-                    <i>📐</i>
-                    <h3>Аудит процессов</h3>
-                    <p>Выявляю узкие места, потери и дублирование. Составляю карту текущей архитектуры.</p>
+            <div class="services-list">
+                <div class="service-item">
+                    <div class="service-icon">📐</div>
+                    <div class="service-text">
+                        <h3>Аудит процессов</h3>
+                        <p>Выявляю узкие места, потери и дублирование. Составляю карту текущей архитектуры.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <i>⚙️</i>
-                    <h3>Проектирование</h3>
-                    <p>Создаю целевую модель процессов, регламенты, KPI и дорожную карту внедрения.</p>
+                <div class="service-item">
+                    <div class="service-icon">⚙️</div>
+                    <div class="service-text">
+                        <h3>Проектирование</h3>
+                        <p>Создаю целевую модель процессов, регламенты, KPI и дорожную карту внедрения.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <i>🤖</i>
-                    <h3>Автоматизация</h3>
-                    <p>Подбираю инструменты (CRM, BPM, Low-code) и контролирую запуск цифровых цепочек.</p>
+                <div class="service-item">
+                    <div class="service-icon">🤖</div>
+                    <div class="service-text">
+                        <h3>Автоматизация</h3>
+                        <p>Подбираю инструменты (CRM, BPM, Low-code) и контролирую запуск цифровых цепочек.</p>
+                    </div>
                 </div>
-                <div class="card">
-                    <i>📊</i>
-                    <h3>Внедрение OKR / KPI</h3>
-                    <p>Настраиваю систему метрик и управления эффективностью, связываю стратегию с операционкой.</p>
+                <div class="service-item">
+                    <div class="service-icon">📊</div>
+                    <div class="service-text">
+                        <h3>Внедрение OKR / KPI</h3>
+                        <p>Настраиваю систему метрик и управления эффективностью.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -443,12 +360,12 @@
             <h2>Методологии и подходы</h2>
             <div class="section-sub">Работаю на проверенных стандартах</div>
             <div class="method-grid">
-                <div class="method-item">BPMN 2.0</div>
-                <div class="method-item">Lean / 6 Sigma</div>
-                <div class="method-item">Value Stream Mapping</div>
-                <div class="method-item">TOGAF (адаптировано)</div>
-                <div class="method-item">Scrum / Kanban</div>
-                <div class="method-item">OKR & KPI</div>
+                <span class="method-item">BPMN 2.0</span>
+                <span class="method-item">Lean / 6 Sigma</span>
+                <span class="method-item">Value Stream Mapping</span>
+                <span class="method-item">TOGAF (адаптировано)</span>
+                <span class="method-item">Scrum / Kanban</span>
+                <span class="method-item">OKR & KPI</span>
             </div>
         </div>
 
@@ -458,7 +375,7 @@
             <div class="section-sub">Обсудим ваш проект, задачу или консультацию</div>
             <div class="contact-block">
                 <p>📩 Напишите мне — отвечаю в течение дня</p>
-                <a href="mailto:ddenisovspb@gmail.com" class="big-email">
+                <a href="mailto:ddenisovspb@gmail.com" class="email-link">
                     ✉️ ddenisovspb@gmail.com
                 </a>
             </div>
