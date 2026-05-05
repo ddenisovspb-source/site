@@ -7,6 +7,30 @@
     <meta name="author" content="Дмитрий Денисов">
     <title>Проектирование и улучшение бизнес-процессов, подбор low-code решений, организация маркетинга | Дмитрий Денисов</title>
     <style>
+        /* Фото архитектора — круглое, 400px */
+.hero-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+}
+
+.avatar-img {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
+    border: 3px solid #D4AF37;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .avatar-img {
+        width: 220px;
+        height: 220px;
+    }
+}
         * {
             margin: 0;
             padding: 0;
@@ -292,30 +316,6 @@
                 gap: 0.5rem;
             }
         }
-        /* Фото архитектора — круглое, 400px */
-.hero-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto;
-}
-
-.avatar-img {
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
-    border: 3px solid #D4AF37;
-}
-
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    .avatar-img {
-        width: 220px;
-        height: 220px;
-    }
-}
     </style>
 </head>
 <body>
