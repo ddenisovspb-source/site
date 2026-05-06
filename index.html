@@ -247,13 +247,15 @@
             } else {
                 turnTextSpan.innerText = currentPlayer;
             }
-            // меняем цвет подстветки
-            if (turnTextSpan.innerText.includes('X') || turnTextSpan.innerText === 'X') {
+            
+            // меняем цвет подсветки (исправлено: сбрасываем класс при ничьей или тексте без X/O)
+            const text = turnTextSpan.innerText;
+            if (text.includes('X') || text === 'X') {
                 turnTextSpan.className = 'turn-X';
-            } else if (turnTextSpan.innerText.includes('O') || turnTextSpan.innerText === 'O') {
+            } else if (text.includes('O') || text === 'O') {
                 turnTextSpan.className = 'turn-O';
             } else {
-                turnTextSpan.className = '';
+                turnTextSpan.className = ''; // сбрасываем цвет для ничьей
             }
         }
 
@@ -262,17 +264,15 @@
             scoreOSpan.innerText = scoreO;
         }
 
-        // Проверка победы (5 в ряд) — оптимизированный проход по всем направлениям
+        // Проверка победы (5 в ряд)
         function checkWin(row, col, player) {
-            // если клетка пустая (но по логике она уже заполнена) — но перестраховка
             if(board[row][col] !== player) return false;
 
-            // направления: горизонталь (1,0), вертикаль (0,1), диагональ (1,1) и антидиагональ (1,-1)
             const directions = [[1,0],[0,1],[1,1],[1,-1]];
 
             for(let [dx, dy] of directions) {
                 let count = 1;
-                // шаг в положительную сторону
+                // положительное направление
                 for(let step = 1; step <= 4; step++) {
                     const newRow = row + dx*step;
                     const newCol = col + dy*step;
@@ -280,7 +280,7 @@
                     if(board[newRow][newCol] === player) count++;
                     else break;
                 }
-                // шаг в отрицательную сторону
+                // отрицательное направление
                 for(let step = 1; step <= 4; step++) {
                     const newRow = row - dx*step;
                     const newCol = col - dy*step;
@@ -294,7 +294,7 @@
             return false;
         }
 
-        // проверка ничьи (все клетки заполнены, победителя нет)
+        // проверка ничьи
         function isDraw() {
             for(let i=0; i<BOARD_SIZE; i++) {
                 for(let j=0; j<BOARD_SIZE; j++) {
@@ -304,7 +304,7 @@
             return true;
         }
 
-        // завершение игры с победой или ничьей
+        // завершение игры
         function endGame(winnerPlayer = null) {
             gameActive = false;
             if(winnerPlayer === 'X') {
@@ -316,53 +316,13 @@
                 scoreO++;
                 updateScoreUI();
             } else {
-                // ничья
-                winner = null;
+                winner = null; // ничья
             }
             updateTurnUI();
-            renderBoard(true); // true = окончание игры (добавим стиль победных клеток, если победитель есть)
+            renderBoard(true);
         }
 
-        // рендер доски с возможностью подсветки победных клеток
-        function renderBoard(isGameEnd = false) {
-            boardElement.innerHTML = '';
-            let winningCells = [];
-
-            // если игра окончена и есть победитель — найдём все клетки, составляющие линию победы (для анимации)
-            if(isGameEnd && winner && gameActive === false) {
-                winningCells = getWinningCombinationCells(winner);
-            }
-
-            for(let i=0; i<BOARD_SIZE; i++) {
-                for(let j=0; j<BOARD_SIZE; j++) {
-                    const value = board[i][j];
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    if(value === 'X') cell.classList.add('X');
-                    if(value === 'O') cell.classList.add('O');
-                    if(value !== null) cell.classList.add('disabled-cell');
-                    
-                    // подсветка победной ячейки
-                    const isWinning = winningCells.some(cellPos => cellPos.row === i && cellPos.col === j);
-                    if(isWinning && winner) {
-                        cell.classList.add('win-highlight');
-                    }
-                    
-                    cell.textContent = value || '';
-                    if(gameActive && value === null) {
-                        cell.style.cursor = 'pointer';
-                        cell.addEventListener('click', (function(row, col) {
-                            return function() { makeMove(row, col); };
-                        })(i, j));
-                    } else {
-                        cell.style.cursor = 'default';
-                    }
-                    boardElement.appendChild(cell);
-                }
-            }
-        }
-
-        // Функция для поиска победной комбинации (первой найденной) — чисто для визуального эффекта
+        // поиск победной комбинации для подсветки
         function getWinningCombinationCells(player) {
             for(let i=0; i<BOARD_SIZE; i++) {
                 for(let j=0; j<BOARD_SIZE; j++) {
@@ -391,7 +351,7 @@
                             } else break;
                         }
                         if(count >= WIN_CONDITION) {
-                            // возвращаем уникальные клетки (могут дублироваться, но set по строке)
+                            // убираем дубликаты
                             const unique = [];
                             const keyMap = new Set();
                             for(let cell of cells) {
@@ -409,15 +369,50 @@
             return [];
         }
 
+        // рендер доски
+        function renderBoard(isGameEnd = false) {
+            boardElement.innerHTML = '';
+            let winningCells = [];
+
+            if(isGameEnd && winner && gameActive === false) {
+                winningCells = getWinningCombinationCells(winner);
+            }
+
+            for(let i=0; i<BOARD_SIZE; i++) {
+                for(let j=0; j<BOARD_SIZE; j++) {
+                    const value = board[i][j];
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if(value === 'X') cell.classList.add('X');
+                    if(value === 'O') cell.classList.add('O');
+                    if(value !== null) cell.classList.add('disabled-cell');
+                    
+                    const isWinning = winningCells.some(cellPos => cellPos.row === i && cellPos.col === j);
+                    if(isWinning && winner) {
+                        cell.classList.add('win-highlight');
+                    }
+                    
+                    cell.textContent = value || '';
+                    if(gameActive && value === null) {
+                        cell.style.cursor = 'pointer';
+                        cell.addEventListener('click', (function(row, col) {
+                            return function() { makeMove(row, col); };
+                        })(i, j));
+                    } else {
+                        cell.style.cursor = 'default';
+                    }
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
         // основной ход
         function makeMove(row, col) {
             if(!gameActive) return;
             if(board[row][col] !== null) return;
             
-            // ставим текущего игрока
             board[row][col] = currentPlayer;
             
-            // проверка победы
             const win = checkWin(row, col, currentPlayer);
             if(win) {
                 endGame(currentPlayer);
@@ -425,7 +420,6 @@
                 return;
             }
             
-            // проверка ничьи
             if(isDraw()) {
                 gameActive = false;
                 winner = null;
@@ -434,15 +428,13 @@
                 return;
             }
             
-            // смена игрока
             currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
             updateTurnUI();
             renderBoard(false);
         }
         
-        // полный сброс игры (без сброса счёта)
+        // сброс игры (без сброса счёта)
         function resetGame(resetScore = false) {
-            // очищаем доску
             board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(null));
             currentPlayer = 'X';
             gameActive = true;
@@ -456,26 +448,19 @@
             renderBoard(false);
         }
         
-        // сброс с обнулением счёта (кнопка дополнительная? добавим по двойному клику? но сделаем в resetBtn по умолчанию — новая игра без сброса счета? Лучше: 
-        // по кнопке "Новая игра" сбрасываем только поле, счёт остаётся. Но добавим скрытый сброс счета? Сделаем контекстное меню? Нет, добавим вторую функцию через долгое нажатие? 
-        // Пусть будет просто: кнопка сбрасывает только текущую партию. Для сброса счета сделаем двойной клик по кнопке (сообщим в подсказке) либо добавим кнопку очистить счёт.
-        // Лучше добавить чистую кнопку внизу маленькую? Допишем span с функцией.
-        
-        // Добавим функционал сброса счёта двойным тапом / или маленькой ссылкой.
         function fullResetWithScore() {
             resetGame(true);
         }
         
-        // Настраиваем кнопки
+        // кнопка "Новая игра" — сброс поля без обнуления счёта
         resetBtn.addEventListener('click', () => {
             resetGame(false);
         });
         
-        // Добавляем скрытый сброс счета при двойном клике на кнопку "Новая игра"
+        // двойной клик по кнопке — полный сброс (счёт + поле)
         resetBtn.addEventListener('dblclick', (e) => {
             e.stopPropagation();
             fullResetWithScore();
-            // маленький фидбек
             const originalText = resetBtn.innerText;
             resetBtn.innerText = '✨ Счёт обнулён ✨';
             setTimeout(() => {
@@ -483,7 +468,7 @@
             }, 800);
         });
         
-        // tooltip (подсказка)
+        // подсказка
         const footerHint = document.createElement('div');
         footerHint.style.fontSize = '0.7rem';
         footerHint.style.marginTop = '8px';
@@ -491,7 +476,7 @@
         footerHint.innerText = '💡 Двойной клик по кнопке "Новая игра" — сбросить счёт';
         document.querySelector('.status').after(footerHint);
         
-        // Инициализация
+        // запуск
         resetGame(false);
     })();
 </script>
