@@ -2,422 +2,498 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Проектирую бизнес-системы, оптимизирую процессы, внедряю простые и эффективные решения для небольших бизнес-проектов.">
-    <meta name="author" content="Человек-мыслитель">
-    <title>Проектирование и улучшение бизнес-процессов, подбор low-code решений, организация маркетинга |</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Крестики-Нолики 5x5</title>
     <style>
-        /* Фото архитектора — круглое, 300px */
-.hero-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem auto;
-}
-
-.avatar-img {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
-    border: 0px solid #D4AF37;
-}
-
-/* Адаптация для мобильных */
-@media (max-width: 768px) {
-    .avatar-img {
-        width: 220px;
-        height: 220px;
-    }
-}
-        .hero-badge {
-    font-size: 125%;
-}
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
+            user-select: none;
         }
 
         body {
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            background: #FFFFFF;
-            color: #1A1A1A;
-            line-height: 1.5;
-            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e2a3a, #0f172a);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header */
-        header {
-            padding: 1.5rem 0;
-            border-bottom: 1px solid #E5E7EB;
-            background: rgba(255,255,255,0.96);
+        .game-container {
+            background: rgba(255,255,255,0.1);
             backdrop-filter: blur(8px);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            border-radius: 48px;
+            padding: 24px 20px 32px 20px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .nav {
+        .game {
+            text-align: center;
+            background: #0f172ad9;
+            border-radius: 36px;
+            padding: 20px;
+            box-shadow: inset 0 0 8px #00000033, 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin: 0 0 8px 0;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #f0f9ff, #bae6fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .turn-indicator {
+            background: #1e293b;
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin: 10px 0 18px 0;
+            box-shadow: inset 0 1px 2px #ffffff1a, 0 4px 8px #00000033;
+            color: #cbd5e6;
+        }
+
+        .turn-X {
+            color: #3b82f6;
+            text-shadow: 0 0 6px #3b82f6;
+        }
+        .turn-O {
+            color: #ef4444;
+            text-shadow: 0 0 6px #ef4444;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(60px, 85px));
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .cell {
+            aspect-ratio: 1 / 1;
+            background: #1f2a3e;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 0 #0a0f1c;
+            color: white;
+            text-shadow: 0 2px 5px black;
+        }
+
+        .cell.X {
+            color: #60a5fa;
+            text-shadow: 0 0 12px #3b82f6;
+        }
+        .cell.O {
+            color: #f87171;
+            text-shadow: 0 0 12px #ef4444;
+        }
+
+        .cell:active {
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #0a0f1c;
+        }
+
+        .disabled-cell {
+            cursor: default;
+            filter: brightness(0.95);
+        }
+        .disabled-cell:active {
+            transform: none;
+        }
+
+        .win-highlight {
+            background: radial-gradient(circle, #4c1d95, #2e1065);
+            box-shadow: 0 0 18px #a78bfa;
+            border: 1px solid #c4b5fd;
+        }
+
+        .status {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 60px;
+            margin: 16px 10px 0 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #e2e8f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 16px;
             flex-wrap: wrap;
-            gap: 1rem;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #111827;
-        }
-
-        .logo span {
-            color: #D4AF37;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #4B5563;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #D4AF37;
-        }
-
-        /* Hero */
-        .hero {
-            padding: 4rem 0 3rem;
-            text-align: center;
-        }
-
-        .hero-badge {
-            color: #D4AF37;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            color: #0F172A;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #4B5563;
-            max-width: 650px;
-            margin: 0 auto 2rem;
-        }
-
-        /* секции */
-        .section {
-            padding: 4rem 0;
-            border-bottom: 1px solid #F0F0F0;
-        }
-
-        .section:last-of-type {
-            border-bottom: none;
-        }
-
-        .section h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #0F172A;
-        }
-
-        .section-sub {
-            color: #6B7280;
-            margin-bottom: 2rem;
-            border-left: 3px solid #D4AF37;
-            padding-left: 1rem;
-        }
-
-        /* Услуги — список, без карточек */
-        .services-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .service-item {
-            display: flex;
-            gap: 1rem;
-            align-items: flex-start;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid #F3F4F6;
-        }
-
-        .service-icon {
-            font-size: 1.8rem;
-            min-width: 48px;
-        }
-
-        .service-text h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .service-text p {
-            color: #6B7280;
-            font-size: 0.95rem;
-        }
-
-        /* Методологии — чипсы */
-        .method-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .method-item {
-            background: #F3F4F6;
-            padding: 0.5rem 1.2rem;
+        .reset-btn {
+            background: #e11d48;
+            border: none;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 8px 20px;
             border-radius: 40px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #1F2937;
+            color: white;
+            cursor: pointer;
+            transition: 0.1s linear;
+            box-shadow: 0 4px 0 #881337;
+        }
+        .reset-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #881337;
         }
 
-        /* Контакт */
-        .contact-block {
-            text-align: center;
-            background: #F9FAFB;
-            padding: 2rem;
-            border-radius: 24px;
+        .score {
+            display: flex;
+            gap: 20px;
+            background: #1e293b;
+            padding: 5px 16px;
+            border-radius: 36px;
         }
-
-        .contact-block p {
-            margin-bottom: 1rem;
-            color: #374151;
+        .score span {
+            font-weight: bold;
+            font-size: 1.3rem;
         }
-
-        .email-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #FFFFFF;
-            padding: 0.8rem 1.8rem;
-            border-radius: 60px;
-            text-decoration: none;
-            font-weight: 600;
-            color: #0F172A;
-            border: 1px solid #E5E7EB;
-            transition: 0.2s;
-            word-break: break-all;
+        .score-x {
+            color: #3b82f6;
         }
-
-        .email-link:hover {
-            border-color: #D4AF37;
-            transform: scale(1.02);
+        .score-o {
+            color: #ef4444;
         }
 
         footer {
+            font-size: 0.7rem;
             text-align: center;
-            padding: 2rem 0;
-            color: #9CA3AF;
-            font-size: 0.8rem;
+            margin-top: 18px;
+            opacity: 0.7;
+            color: #94a3b8;
         }
 
-        /* Мобильная адаптация */
-        @media (max-width: 768px) {
-            .container {
-                padding: 0 20px;
+        @media (max-width: 550px) {
+            .board {
+                gap: 8px;
+                grid-template-columns: repeat(5, minmax(50px, 70px));
             }
-
-            .nav {
-                flex-direction: column;
-                gap: 0.75rem;
+            .cell {
+                font-size: 2.2rem;
+                border-radius: 18px;
             }
-
-            .nav-links {
-                gap: 1.5rem;
-            }
-
-            .hero {
-                padding: 2.5rem 0 2rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
+            .turn-indicator {
                 font-size: 1rem;
-            }
-
-            .section {
-                padding: 2.5rem 0;
-            }
-
-            .section h2 {
-                font-size: 1.5rem;
-            }
-
-            .section-sub {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .service-item {
-                gap: 0.75rem;
-            }
-
-            .service-icon {
-                font-size: 1.5rem;
-                min-width: 40px;
-            }
-
-            .service-text h3 {
-                font-size: 1.1rem;
-            }
-
-            .service-text p {
-                font-size: 0.85rem;
-            }
-
-            .method-item {
-                font-size: 0.8rem;
-                padding: 0.4rem 1rem;
-            }
-
-            .email-link {
-                font-size: 0.9rem;
-                padding: 0.6rem 1.2rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 1.7rem;
-            }
-
-            .method-grid {
-                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-
-<header>
-    <div class="container">
-        <div class="nav">
-            <div class="logo">Архитектор <span>процессов</span></div>
-            <div class="nav-links">
-                <a href="#services">Услуги</a>
-                <a href="#methodology">Методологии</a>
-                <a href="#contact">Контакты</a>
-            </div>
+<div class="game-container">
+    <div class="game">
+        <h1>⚡ КРЕСТИКИ-НОЛИКИ ⚡</h1>
+        <div class="turn-indicator" id="turnIndicator">
+            Ход: <span id="turnText">X</span>
         </div>
+        <div class="board" id="board"></div>
+        <div class="status">
+            <div class="score">
+                🅧 <span class="score-x" id="scoreX">0</span> &nbsp;|&nbsp;
+                🄾 <span class="score-o" id="scoreO">0</span>
+            </div>
+            <button class="reset-btn" id="resetBtn">🔄 Новая игра</button>
+        </div>
+        <footer>✔️ 5x5 поле | победа: 5 в ряд</footer>
     </div>
-</header>
-
-<main>
-    <div class="container">
-        <!-- Hero -->
-        <div class="hero">
-            <div class="hero-badge">Человек-мыслитель</div>
-            <h1>Проектирую процессы,<br> которые работают</h1>
-            <div class="hero-avatar">
-    <img src="fil.jpg" alt="Архитектор процессов" class="avatar-img">
 </div>
-            <p>Проектирую бизнес-системы, оптимизирую процессы, внедряю простые и эффективные решения для небольших бизнес-проектов</p>
-            <a href="#contact" style="display: inline-block; background: #0F172A; color: white; padding: 0.8rem 2rem; border-radius: 40px; text-decoration: none; font-weight: 600;">Обсудить проект →</a>
-        </div>
 
-        <!-- Услуги (без карточек) -->
-        <div id="services" class="section">
-            <h2>Что я делаю</h2>
-            <div class="section-sub">Типовые рабочие задачи</div>
-            <div class="services-list">
-                <div class="service-item">
-                    <div class="service-icon">📐</div>
-                    <div class="service-text">
-                        <h3>Аудит процессов</h3>
-                        <p>Составляю карту текущей архитектуры процессов, выявляю узкие места, предлагаю новые решения.</p>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">⚙️</div>
-                    <div class="service-text">
-                        <h3>Проектирование</h3>
-                        <p>Создаю целевую модель процессов, пишу регламенты, предлагаю KPI и дорожную карту внедрения.</p>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">🤖</div>
-                    <div class="service-text">
-                        <h3>Автоматизация</h3>
-                        <p>Подбираю инструменты для повышения эффективности работы (CRM, BPM, Low-code), контролирую внедрение.</p>
-                    </div>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">📊</div>
-                    <div class="service-text">
-                        <h3>Внедрение KPI и анализ данных</h3>
-                        <p>Настраиваю систему метрик и отслеживание данных.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<script>
+    (function(){
+        // ------ конфиг ------
+        const BOARD_SIZE = 5;
+        const WIN_CONDITION = 5; // нужно 5 в ряд
 
-        <!-- Методологии -->
-        <div id="methodology" class="section">
-            <h2>Методологии и подходы</h2>
-            <div class="section-sub">Работаю с помощью проверенных решений и инструментов</div>
-            <div class="method-grid">
-                <span class="method-item">BPMN</span>
-                <span class="method-item">MVP</span>
-                <span class="method-item">DataLens</span>
-                <span class="method-item">Holst</span>
-                <span class="method-item">Kanban</span>
-                <span class="method-item">Российское ПО</span>
-            </div>
-        </div>
+        let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(null));
+        let currentPlayer = 'X';   // X всегда начинает
+        let gameActive = true;
+        let winner = null;          // 'X', 'O' или null
+        
+        // Счёт
+        let scoreX = 0;
+        let scoreO = 0;
 
-        <!-- Контакт с email -->
-        <div id="contact" class="section">
-            <h2>Свяжитесь со мной</h2>
-            <div class="section-sub">Обсудим ваш проект, задачу или консультацию</div>
-            <div class="contact-block">
-                <p>📩 Напишите мне — отвечаю в течение дня</p>
-                <a href="mailto:vamprivet@gmail.com" class="email-link">
-                    ✉️ vamprivet@gmail.com
-                </a>
-            </div>
-        </div>
-    </div>
-</main>
+        // DOM элементы
+        const boardElement = document.getElementById('board');
+        const turnTextSpan = document.getElementById('turnText');
+        const turnIndicatorDiv = document.getElementById('turnIndicator');
+        const scoreXSpan = document.getElementById('scoreX');
+        const scoreOSpan = document.getElementById('scoreO');
+        const resetBtn = document.getElementById('resetBtn');
 
-<footer>
-    <div class="container">
-        <p>© 2026 Человек-мыслитель</p>
-    </div>
-</footer>
+        // ------ вспомогательные функции обновления UI ------
+        function updateTurnUI() {
+            if(!gameActive) {
+                if(winner === 'X') turnTextSpan.innerText = '🏆 ПОБЕДА X 🏆';
+                else if(winner === 'O') turnTextSpan.innerText = '🏆 ПОБЕДА O 🏆';
+                else if(winner === null && !gameActive) turnTextSpan.innerText = '🤝 НИЧЬЯ 🤝';
+                else turnTextSpan.innerText = currentPlayer;
+            } else {
+                turnTextSpan.innerText = currentPlayer;
+            }
+            // меняем цвет подстветки
+            if (turnTextSpan.innerText.includes('X') || turnTextSpan.innerText === 'X') {
+                turnTextSpan.className = 'turn-X';
+            } else if (turnTextSpan.innerText.includes('O') || turnTextSpan.innerText === 'O') {
+                turnTextSpan.className = 'turn-O';
+            } else {
+                turnTextSpan.className = '';
+            }
+        }
 
+        function updateScoreUI() {
+            scoreXSpan.innerText = scoreX;
+            scoreOSpan.innerText = scoreO;
+        }
+
+        // Проверка победы (5 в ряд) — оптимизированный проход по всем направлениям
+        function checkWin(row, col, player) {
+            // если клетка пустая (но по логике она уже заполнена) — но перестраховка
+            if(board[row][col] !== player) return false;
+
+            // направления: горизонталь (1,0), вертикаль (0,1), диагональ (1,1) и антидиагональ (1,-1)
+            const directions = [[1,0],[0,1],[1,1],[1,-1]];
+
+            for(let [dx, dy] of directions) {
+                let count = 1;
+                // шаг в положительную сторону
+                for(let step = 1; step <= 4; step++) {
+                    const newRow = row + dx*step;
+                    const newCol = col + dy*step;
+                    if(newRow < 0 || newRow >= BOARD_SIZE || newCol < 0 || newCol >= BOARD_SIZE) break;
+                    if(board[newRow][newCol] === player) count++;
+                    else break;
+                }
+                // шаг в отрицательную сторону
+                for(let step = 1; step <= 4; step++) {
+                    const newRow = row - dx*step;
+                    const newCol = col - dy*step;
+                    if(newRow < 0 || newRow >= BOARD_SIZE || newCol < 0 || newCol >= BOARD_SIZE) break;
+                    if(board[newRow][newCol] === player) count++;
+                    else break;
+                }
+                
+                if(count >= WIN_CONDITION) return true;
+            }
+            return false;
+        }
+
+        // проверка ничьи (все клетки заполнены, победителя нет)
+        function isDraw() {
+            for(let i=0; i<BOARD_SIZE; i++) {
+                for(let j=0; j<BOARD_SIZE; j++) {
+                    if(board[i][j] === null) return false;
+                }
+            }
+            return true;
+        }
+
+        // завершение игры с победой или ничьей
+        function endGame(winnerPlayer = null) {
+            gameActive = false;
+            if(winnerPlayer === 'X') {
+                winner = 'X';
+                scoreX++;
+                updateScoreUI();
+            } else if(winnerPlayer === 'O') {
+                winner = 'O';
+                scoreO++;
+                updateScoreUI();
+            } else {
+                // ничья
+                winner = null;
+            }
+            updateTurnUI();
+            renderBoard(true); // true = окончание игры (добавим стиль победных клеток, если победитель есть)
+        }
+
+        // рендер доски с возможностью подсветки победных клеток
+        function renderBoard(isGameEnd = false) {
+            boardElement.innerHTML = '';
+            let winningCells = [];
+
+            // если игра окончена и есть победитель — найдём все клетки, составляющие линию победы (для анимации)
+            if(isGameEnd && winner && gameActive === false) {
+                winningCells = getWinningCombinationCells(winner);
+            }
+
+            for(let i=0; i<BOARD_SIZE; i++) {
+                for(let j=0; j<BOARD_SIZE; j++) {
+                    const value = board[i][j];
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if(value === 'X') cell.classList.add('X');
+                    if(value === 'O') cell.classList.add('O');
+                    if(value !== null) cell.classList.add('disabled-cell');
+                    
+                    // подсветка победной ячейки
+                    const isWinning = winningCells.some(cellPos => cellPos.row === i && cellPos.col === j);
+                    if(isWinning && winner) {
+                        cell.classList.add('win-highlight');
+                    }
+                    
+                    cell.textContent = value || '';
+                    if(gameActive && value === null) {
+                        cell.style.cursor = 'pointer';
+                        cell.addEventListener('click', (function(row, col) {
+                            return function() { makeMove(row, col); };
+                        })(i, j));
+                    } else {
+                        cell.style.cursor = 'default';
+                    }
+                    boardElement.appendChild(cell);
+                }
+            }
+        }
+
+        // Функция для поиска победной комбинации (первой найденной) — чисто для визуального эффекта
+        function getWinningCombinationCells(player) {
+            for(let i=0; i<BOARD_SIZE; i++) {
+                for(let j=0; j<BOARD_SIZE; j++) {
+                    if(board[i][j] !== player) continue;
+                    
+                    const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+                    for(let [dx, dy] of dirs) {
+                        let cells = [{row: i, col: j}];
+                        let count = 1;
+                        // положительное направление
+                        for(let step=1; step<=4; step++) {
+                            const nr = i + dx*step, nc = j + dy*step;
+                            if(nr<0 || nr>=BOARD_SIZE || nc<0 || nc>=BOARD_SIZE) break;
+                            if(board[nr][nc] === player) {
+                                cells.push({row: nr, col: nc});
+                                count++;
+                            } else break;
+                        }
+                        // отрицательное направление
+                        for(let step=1; step<=4; step++) {
+                            const nr = i - dx*step, nc = j - dy*step;
+                            if(nr<0 || nr>=BOARD_SIZE || nc<0 || nc>=BOARD_SIZE) break;
+                            if(board[nr][nc] === player) {
+                                cells.push({row: nr, col: nc});
+                                count++;
+                            } else break;
+                        }
+                        if(count >= WIN_CONDITION) {
+                            // возвращаем уникальные клетки (могут дублироваться, но set по строке)
+                            const unique = [];
+                            const keyMap = new Set();
+                            for(let cell of cells) {
+                                const key = `${cell.row},${cell.col}`;
+                                if(!keyMap.has(key)) {
+                                    keyMap.add(key);
+                                    unique.push(cell);
+                                }
+                            }
+                            return unique;
+                        }
+                    }
+                }
+            }
+            return [];
+        }
+
+        // основной ход
+        function makeMove(row, col) {
+            if(!gameActive) return;
+            if(board[row][col] !== null) return;
+            
+            // ставим текущего игрока
+            board[row][col] = currentPlayer;
+            
+            // проверка победы
+            const win = checkWin(row, col, currentPlayer);
+            if(win) {
+                endGame(currentPlayer);
+                renderBoard(true);
+                return;
+            }
+            
+            // проверка ничьи
+            if(isDraw()) {
+                gameActive = false;
+                winner = null;
+                updateTurnUI();
+                renderBoard(true);
+                return;
+            }
+            
+            // смена игрока
+            currentPlayer = (currentPlayer === 'X') ? 'O' : 'X';
+            updateTurnUI();
+            renderBoard(false);
+        }
+        
+        // полный сброс игры (без сброса счёта)
+        function resetGame(resetScore = false) {
+            // очищаем доску
+            board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(null));
+            currentPlayer = 'X';
+            gameActive = true;
+            winner = null;
+            if(resetScore) {
+                scoreX = 0;
+                scoreO = 0;
+                updateScoreUI();
+            }
+            updateTurnUI();
+            renderBoard(false);
+        }
+        
+        // сброс с обнулением счёта (кнопка дополнительная? добавим по двойному клику? но сделаем в resetBtn по умолчанию — новая игра без сброса счета? Лучше: 
+        // по кнопке "Новая игра" сбрасываем только поле, счёт остаётся. Но добавим скрытый сброс счета? Сделаем контекстное меню? Нет, добавим вторую функцию через долгое нажатие? 
+        // Пусть будет просто: кнопка сбрасывает только текущую партию. Для сброса счета сделаем двойной клик по кнопке (сообщим в подсказке) либо добавим кнопку очистить счёт.
+        // Лучше добавить чистую кнопку внизу маленькую? Допишем span с функцией.
+        
+        // Добавим функционал сброса счёта двойным тапом / или маленькой ссылкой.
+        function fullResetWithScore() {
+            resetGame(true);
+        }
+        
+        // Настраиваем кнопки
+        resetBtn.addEventListener('click', () => {
+            resetGame(false);
+        });
+        
+        // Добавляем скрытый сброс счета при двойном клике на кнопку "Новая игра"
+        resetBtn.addEventListener('dblclick', (e) => {
+            e.stopPropagation();
+            fullResetWithScore();
+            // маленький фидбек
+            const originalText = resetBtn.innerText;
+            resetBtn.innerText = '✨ Счёт обнулён ✨';
+            setTimeout(() => {
+                resetBtn.innerText = originalText;
+            }, 800);
+        });
+        
+        // tooltip (подсказка)
+        const footerHint = document.createElement('div');
+        footerHint.style.fontSize = '0.7rem';
+        footerHint.style.marginTop = '8px';
+        footerHint.style.opacity = '0.7';
+        footerHint.innerText = '💡 Двойной клик по кнопке "Новая игра" — сбросить счёт';
+        document.querySelector('.status').after(footerHint);
+        
+        // Инициализация
+        resetGame(false);
+    })();
+</script>
 </body>
 </html>
