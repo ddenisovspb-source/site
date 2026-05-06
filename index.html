@@ -409,6 +409,9 @@
                 if(textSpan.contentEditable === 'true') return;
                 textSpan.contentEditable = 'true';
                 textSpan.focus();
+                javascript
+    // Выделяем весь текст
+    window.getSelection().selectAllChildren(textSpan);
                 // сохраняем при потере фокуса
                 const saveEdit = () => {
                     textSpan.contentEditable = 'false';
