@@ -410,8 +410,34 @@
                 textSpan.contentEditable = 'true';
                 textSpan.focus();
                 javascript
+    // Двойной клик для редактирования ✨ фишка
+textSpan.addEventListener('dblclick', (e) => {
+    e.stopPropagation();
+    if(textSpan.contentEditable === 'true') return;
+    textSpan.contentEditable = 'true';
+    textSpan.focus();
     // Выделяем весь текст
     window.getSelection().selectAllChildren(textSpan);
+    
+    const saveEdit = () => {
+        textSpan.contentEditable = 'false';
+        const newText = textSpan.innerText.trim();
+        if(newText === '') {
+            deleteCardByElement(card, columnId, index);
+        } else {
+            data[columnId][index] = newText;
+            saveToStorage();
+            renderBoard();
+        }
+    };
+    textSpan.addEventListener('blur', saveEdit, { once: true });
+    textSpan.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            e.preventDefault();
+            textSpan.blur();
+        }
+    }, { once: true });
+});
                 // сохраняем при потере фокуса
                 const saveEdit = () => {
                     textSpan.contentEditable = 'false';
