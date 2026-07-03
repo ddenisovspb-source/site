@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import List
-from olap_cube import OlapCube
+from backend.olap_cube import OlapCube  # ← ИЗМЕНЕНО
 import os
 
 app = FastAPI(title="OLAP Dashboard API")
@@ -17,7 +17,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-EXCEL_PATH = 'data/olap_fixed.xlsx'
+# ===== ПУТЬ К EXCEL =====
+current_dir = os.path.dirname(os.path.abspath(__file__))
+base_dir = os.path.dirname(current_dir)
+EXCEL_PATH = os.path.join(base_dir, 'data', 'olap_fixed.xlsx')
+
+print(f"📁 Ищем файл: {EXCEL_PATH}")
+print(f"📁 Существует: {os.path.exists(EXCEL_PATH)}")
+
 cube = OlapCube(EXCEL_PATH)
 
 class QueryRequest(BaseModel):
@@ -53,14 +60,11 @@ def query_data(request: QueryRequest):
         raise HTTPException(status_code=400, detail=str(e))
 
 # ===== РАЗДАЧА FRONTEND =====
-# Получаем абсолютный путь к папке frontend
-current_dir = os.path.dirname(os.path.abspath(__file__))
-frontend_dir = os.path.join(os.path.dirname(current_dir), 'frontend')
-
+frontend_dir = os.path.join(base_dir, 'frontend')
 print(f"📁 Путь к frontend: {frontend_dir}")
+print(f"📁 Существует: {os.path.exists(frontend_dir)}")
 
 if os.path.exists(frontend_dir):
-    # Раздаем статику
     app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
     
     @app.get("/ui")
@@ -78,11 +82,8 @@ if os.path.exists(frontend_dir):
         return {"error": f"File {path} not found"}
     
     print(f"✅ Frontend доступен по адресу: /ui")
-    print(f"   Файлы: {os.listdir(frontend_dir)}")
 else:
-    print(f"❌ Папка frontend НЕ НАЙДЕНА: {frontend_dir}")
-    print(f"   Текущая директория: {current_dir}")
-    print(f"   Содержимое: {os.listdir(os.path.dirname(current_dir))}")
+    print(f"❌ Папка frontend НЕ НАЙДЕНА")
 
 if __name__ == "__main__":
     import uvicorn
