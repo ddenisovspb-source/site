@@ -1,6 +1,6 @@
 // ===== КОНФИГУРАЦИЯ =====
 // Для локального запуска:
-const API_URL = 'http://localhost:8000';
+const API_URL = '';
 
 // Для GitHub Codespaces (замени после запуска):
 // const API_URL = 'https://ddenisovspb-source.ваш-код.app.github.dev';
