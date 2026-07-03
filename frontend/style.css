@@ -1,1 +1,386 @@
+/* Обнуление */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #e8edf2;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 12px 24px;
+    flex-shrink: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 10;
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: 20px;
+}
+
+.header-title h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.badge {
+    background: #3d566e;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #b0c4d9;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.control-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-section label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #8aa4c0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-height: 48px;
+    overflow-y: auto;
+}
+
+.btn-group.scrollable {
+    max-width: 400px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 2px 0;
+}
+
+.btn-group::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+}
+
+.btn-group::-webkit-scrollbar-thumb {
+    background: #4a6a8a;
+    border-radius: 4px;
+}
+
+.btn-group::-webkit-scrollbar-track {
+    background: #1a2a3a;
+    border-radius: 4px;
+}
+
+/* Кнопки выбора */
+.btn-select {
+    background: #34495e;
+    color: #a0b8d0;
+    border: 1px solid #3d566e;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.btn-select:hover {
+    background: #3d566e;
+    color: #ecf0f1;
+}
+
+.btn-select.active {
+    background: #5b8db8;
+    color: #fff;
+    border-color: #5b8db8;
+    box-shadow: 0 0 0 2px rgba(91, 141, 184, 0.3);
+}
+
+.btn-select.active-project {
+    background: #4a8ab5;
+    color: #fff;
+    border-color: #4a8ab5;
+}
+
+.btn-select.active-column {
+    background: #6a9ec9;
+    color: #fff;
+    border-color: #6a9ec9;
+}
+
+/* Кнопка обновления */
+.btn-primary {
+    background: #5b8db8;
+    color: #fff;
+    border: none;
+    padding: 6px 24px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: auto;
+}
+
+.btn-primary:hover {
+    background: #4a7aa3;
+    transform: scale(1.02);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    padding: 12px 24px 24px;
+    overflow: hidden;
+    background: #f0f3f7;
+}
+
+.table-wrapper {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    height: 100%;
+    overflow: auto;
+    border: 1px solid #dce3eb;
+}
+
+.table-wrapper::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #e8edf2;
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #b0c4d9;
+    border-radius: 4px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #8aa4c0;
+}
+
+/* ===== TABLE ===== */
+#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    min-width: 600px;
+}
+
+#data-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+#data-table thead tr {
+    background: #e8edf2;
+}
+
+#data-table th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #d0d8e2;
+    white-space: nowrap;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    background: #e8edf2;
+}
+
+#data-table td {
+    padding: 8px 14px;
+    border-bottom: 1px solid #eef2f7;
+    color: #2c3e50;
+    white-space: nowrap;
+}
+
+#data-table tbody tr {
+    transition: background 0.15s;
+}
+
+#data-table tbody tr:hover {
+    background: #f5f8fc;
+}
+
+#data-table tbody tr:nth-child(even) {
+    background: #f8faff;
+}
+
+#data-table tbody tr:nth-child(even):hover {
+    background: #f0f5fc;
+}
+
+/* Числовые колонки */
+#data-table td.numeric,
+#data-table th.numeric {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Пустое состояние */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #8aa4c0;
+}
+
+.empty-state .icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #4a6a8a;
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 1024px) {
+    .header {
+        padding: 10px 16px;
+    }
+    
+    .controls {
+        gap: 10px;
+    }
+    
+    .btn-group.scrollable {
+        max-width: 200px;
+    }
+    
+    .main-content {
+        padding: 8px 12px 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-title h1 {
+        font-size: 16px;
+    }
+    
+    .control-section label {
+        font-size: 10px;
+    }
+    
+    .btn-select {
+        font-size: 10px;
+        padding: 3px 10px;
+    }
+    
+    .btn-primary {
+        font-size: 11px;
+        padding: 4px 16px;
+    }
+    
+    #data-table {
+        font-size: 11px;
+    }
+    
+    #data-table th,
+    #data-table td {
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 8px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .header-title {
+        justify-content: center;
+        margin-right: 0;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .control-section {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .btn-group.scrollable {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    
+    .btn-primary {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .main-content {
+        padding: 6px 8px 8px;
+    }
+    
+    #data-table {
+        font-size: 10px;
+        min-width: 400px;
+    }
+    
+    #data-table th,
+    #data-table td {
+        padding: 4px 8px;
+    }
+}
