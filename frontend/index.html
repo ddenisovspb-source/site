@@ -1,1 +1,44 @@
-
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLAP Дашборд</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="header-title">
+                <h1>📊 OLAP Дашборд</h1>
+                <span class="badge" id="row-count">0 строк</span>
+            </div>
+            
+            <div class="controls">
+                <div class="control-section">
+                    <label>Проекты</label>
+                    <div class="btn-group" id="project-buttons"></div>
+                </div>
+                
+                <div class="control-section">
+                    <label>Колонки</label>
+                    <div class="btn-group scrollable" id="column-buttons"></div>
+                </div>
+                
+                <button id="update-btn" class="btn-primary">Обновить</button>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="table-wrapper">
+                <table id="data-table">
+                    <thead><tr id="table-header"></tr></thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
