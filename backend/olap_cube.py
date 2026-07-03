@@ -1,12 +1,10 @@
 import pandas as pd
-import re
 import os
 
 class OlapCube:
     def __init__(self, excel_path=None):
         if excel_path is None:
             excel_path = 'data/olap_fixed.xlsx'
-        
         self.excel_path = excel_path
         self.projects = []
         self.all_data = None
@@ -16,10 +14,13 @@ class OlapCube:
     def load_data(self):
         if not os.path.exists(self.excel_path):
             print(f"❌ Файл не найден: {self.excel_path}")
+            self.all_data = pd.DataFrame()
+            self.projects = []
             return
         
         df_raw = pd.read_excel(self.excel_path, header=None, engine='openpyxl')
         
+        # Названия колонок
         for idx, row in df_raw.iterrows():
             if pd.notna(row[1]) and 'Месяц' in str(row[1]):
                 self.column_names = []
@@ -30,6 +31,7 @@ class OlapCube:
                         break
                 break
         
+        # Парсим проекты
         current_project = None
         for idx, row in df_raw.iterrows():
             if pd.notna(row[0]) and isinstance(row[0], str):
@@ -54,6 +56,7 @@ class OlapCube:
                     self.projects.append(current_project)
                     current_project = None
         
+        # Собираем данные
         all_rows = []
         for project in self.projects:
             for row_idx in range(project['data_start'], project['data_end']):
@@ -90,9 +93,14 @@ class OlapCube:
         return [p['name'] for p in self.projects]
     
     def get_columns(self):
+        if self.all_data is None:
+            return []
         return list(self.all_data.columns)
     
     def query(self, projects=None, columns=None):
+        if self.all_data is None or self.all_data.empty:
+            return []
+        
         df = self.all_data.copy()
         
         if projects and len(projects) > 0:
